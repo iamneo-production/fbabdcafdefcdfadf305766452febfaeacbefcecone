@@ -1,60 +1,52 @@
-package model;
+package controller;
 
-public class Medicine {
-    private int medicineId;
-    private String medicineName;
-    private float price;
-    private int quantity;
-    private String description;
+import model.Medicine;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-    // Constructors, getters, and setters
-    public Medicine() {}
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-    public Medicine(int medicineId, String medicineName, float price, int quantity, String description) {
-        this.medicineId = medicineId;
-        this.medicineName = medicineName;
-        this.price = price;
-        this.quantity = quantity;
-        this.description = description;
+@RestController
+@RequestMapping("/medicines")
+public class MedicineController {
+
+    private Map<Integer, Medicine> medicineMap = new HashMap<>();
+
+    @PostMapping
+    public ResponseEntity<String> addMedicine(@RequestBody Medicine medicine) {
+        medicineMap.put(medicine.getMedicineId(), medicine);
+        return new ResponseEntity<>("Medicine added successfully", HttpStatus.CREATED);
     }
 
-    public int getMedicineId() {
-        return medicineId;
+    @PutMapping("/{medicineId}")
+    public ResponseEntity<String> updateMedicine(@PathVariable int medicineId, @RequestBody Medicine updatedMedicine) {
+        if (medicineMap.containsKey(medicineId)) {
+            Medicine medicine = medicineMap.get(medicineId);
+            medicine.setMedicineName(updatedMedicine.getMedicineName());
+            medicine.setPrice(updatedMedicine.getPrice());
+            medicine.setQuantity(updatedMedicine.getQuantity());
+            medicine.setDescription(updatedMedicine.getDescription());
+            return new ResponseEntity<>("Medicine updated successfully", HttpStatus.OK);
+        }
+        return new ResponseEntity<>("Medicine not found", HttpStatus.NOT_FOUND);
     }
 
-    public void setMedicineId(int medicineId) {
-        this.medicineId = medicineId;
+    @GetMapping("/{medicineId}")
+    public ResponseEntity<Medicine> getMedicine(@PathVariable int medicineId) {
+        Medicine medicine = medicineMap.get(medicineId);
+        if (medicine != null) {
+            return new ResponseEntity<>(medicine, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    public String getMedicineName() {
-        return medicineName;
-    }
-
-    public void setMedicineName(String medicineName) {
-        this.medicineName = medicineName;
-    }
-
-    public float getPrice() {
-        return price;
-    }
-
-    public void setPrice(float price) {
-        this.price = price;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+    @GetMapping
+    public ResponseEntity<List<Medicine>> getAllMedicines() {
+        List<Medicine> medicines = new ArrayList<>(medicineMap.values());
+        return new ResponseEntity<>(medicines, HttpStatus.OK);
     }
 }

@@ -2,11 +2,11 @@
 Test set: com.example.springapp.SpringappApplicationTests
 -------------------------------------------------------------------------------
 Tests run: 2, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 5.172 s <<< FAILURE! - in com.example.springapp.SpringappApplicationTests
-testUpdateMedicineApi  Time elapsed: 0.549 s  <<< FAILURE!
+testUpdateMedicineApi  Time elapsed: 0.499 s  <<< FAILURE!
 java.lang.AssertionError: Status expected:<200> but was:<404>
 	at com.example.springapp.SpringappApplicationTests.testUpdateMedicineApi(SpringappApplicationTests.java:46)
 
-testAddMedicineApi  Time elapsed: 0.007 s  <<< FAILURE!
+testAddMedicineApi  Time elapsed: 0.014 s  <<< FAILURE!
 java.lang.AssertionError: Status expected:<200> but was:<404>
 	at com.example.springapp.SpringappApplicationTests.testAddMedicineApi(SpringappApplicationTests.java:32)
 
