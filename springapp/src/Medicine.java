@@ -49,4 +49,5 @@ public class MedicineController {
         List<Medicine> medicines = new ArrayList<>(medicineMap.values());
         return new ResponseEntity<>(medicines, HttpStatus.OK);
     }
-}
+
+    }
